@@ -11,11 +11,58 @@
         {% csrf_token %}
         <p>Name: {{ form.name }}</p>
         <p>Birth Date: {{ form.birth_date }}</p>
-        <p>Age: <span id="age">-</span> <span id="age_val"></span></p>
+        <p>Age: <span id="age"></span> <span id="age_val"></span></p>
         <p>Registration Date: {{ form.reg_date }}</p>
-        <p>Activity: {{ form.activity }}</p>
-        <p>Amount: <span id="amount">-</span></p>
+        <p>Activity: {{ form.activity }} </p>
+        <p>Amount: <span id="amount"> </span></p>
         <input type="submit" value="Submit">
-        <input type="reset" value="Reset">
+        <input type="reset" value="Cancel">
     </form>
+    <script>
+        function validateDate(){
+            let birthdate = document.getElementById('birthdate').value;
+            let age = ageCalculator(birthdate);
+            if (age < 18) {
+                alert("Under age participants cannot register.");
+                document.getElementById('age_val').innerHTML = '*';
+            } else {
+                document.getElementById('age_val').innerHTML = age;
+            }
+        }
+    function ageCalculator(userinput) {  
+        var dob = new Date(userinput);  
+        if(userinput==null || userinput=='') {  
+            document.getElementById("message").innerHTML = "**Choose a date please!";    
+            return false;   
+        } else {
+            var month_diff = Date.now() - dob.getTime();  
+            var age_dt = new Date(month_diff);   
+            var year = age_dt.getUTCFullYear();  
+            var age = year - 1970;  
+            return  age;  
+        }  
+    }
+    function activityChange(){
+        var actid;
+        actid = document.getElementsByName('activity')[0].value;
+        $.ajax({
+            type:"GET",
+            url: "/get_amount",
+            data: {
+                activity_pk: actid
+            },
+            success: function(data) {
+                $( '#amount' ).text(data);
+            }
+        })
+    }  
+    function validateRegistration() {
+        let date = new Date(document.getElementById('regdate').value);
+        if ((Date.now() - date.getTime()) < 0) {
+            
+            document.getElementById('regdate').value = document.getElementById('regdate').defaultValue;
+            alert('Invalid date.');
+        }
+    }
+    </script>
 {% endblock %}
