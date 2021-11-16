@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block body %}
+    <h1>Welcome!</h1>
+    <p></p>
+    <form method="post">
+        {% csrf_token %}
+        <p>Name: {{ form.name }}</p>
+        <p>Birth Date: {{ form.birth_date }}</p>
+        <p>Age: <span id="age">-</span> <span id="age_val"></span></p>
+        <p>Registration Date: {{ form.reg_date }}</p>
+        <p>Activity: {{ form.activity }}</p>
+        <p>Amount: <span id="amount">-</span></p>
+        <input type="submit" value="Submit">
+        <input type="reset" value="Reset">
+    </form>
+{% endblock %}

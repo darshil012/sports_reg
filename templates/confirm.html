@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>Confirm!</h1>
+    {% csrf_token %}
+    <p>Name: {{ applicant.name }}</p>
+    <p>Birth date: {{ applicant.birth_date|date:"d/m/Y" }}</p>
+    <p>Age: {{ age }}</p>
+    <p>Registration Date: {{ applicant.reg_date|date:"d/m/Y" }}</p>
+    <p>Activity: {{ applicant.activity }}</p>
+    <p>Amount: {{ amount }}</p>    
+{% endblock %}
